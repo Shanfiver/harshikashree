@@ -3,6 +3,7 @@ import { Playfair_Display, Cormorant_Garamond, Poppins } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import ImageProtection from '@/components/ImageProtection'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${cormorant.variable} ${poppins.variable}`}>
       <body className="font-sans">
+        <ImageProtection />
         <Navbar />
         <main>{children}</main>
         <Footer />

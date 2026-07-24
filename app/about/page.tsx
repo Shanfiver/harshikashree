@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import PlaceholderImage from '@/components/PlaceholderImage'
+import Photo from '@/components/Photo'
 import SectionHeading from '@/components/SectionHeading'
 
 export const metadata: Metadata = {
@@ -7,17 +7,71 @@ export const metadata: Metadata = {
 }
 
 const milestones = [
-  { year: '2014', event: 'Began Bharatanatyam training under Guru [Name], [Dance School Name]' },
-  { year: '2018', event: 'First solo stage performance at [Venue / Festival Name]' },
-  { year: '2021', event: 'Completed Arangetram — her formal debut solo performance' },
-  { year: '2023', event: 'Featured performer at [Cultural Event / Competition Name]' },
-  { year: '2025', event: 'Continuing advanced training and choreography under [Guru Name]' },
+  {
+    year: '2015',
+    title: 'The Beginning',
+    event:
+      'Began formal Bharatanatyam training at the age of five under the guidance of her mother and Guru, Smt. Rajashree Ramu.',
+  },
+  {
+    year: '2023',
+    title: 'Growing Through Performance',
+    event:
+      'Received the All India Women Achievers Award in Art & Culture and continued performing across cultural festivals, temple events, and sabhas.',
+  },
+  {
+    year: '2024',
+    title: 'Expanding Stage Experience',
+    event:
+      'Performed at Dance Jathre, Mahashivaratri Natyanjali, Thirunagai Natyanjali, and participated in large-scale classical dance productions across Karnataka and Tamil Nadu.',
+  },
+  {
+    year: '2025',
+    title: 'National Recognition',
+    event:
+      'Performed at Sri Krishna Janmashtami Mandalotsava, Sri Radha Ashtami Fine Arts Festival, and Suryaputra dance drama, while securing Second Prize at the Kala Vijrith National Dance Competition.',
+  },
+  {
+    year: '2026',
+    title: 'A Milestone Year',
+    event:
+      'Awarded the prestigious CCRT Scholarship, completed Level-I Certification in Nattuvangam, represented Tamil Nadu at the BRICS 2026 Cultural Festival, and continues advanced training in Bharatanatyam, Nattuvangam, and Carnatic music.',
+  },
 ]
 
 const awards = [
-  'Best Young Dancer — [Competition Name], [Year]',
-  'State-level Bharatanatyam Championship — [Placement], [Year]',
-  'Cultural Excellence Award — [Organization Name], [Year]',
+  {
+    title: 'Centre for Cultural Resources and Training (CCRT) Scholarship',
+    detail: 'Ministry of Culture, Government of India',
+  },
+  {
+    title: 'Representative of Tamil Nadu',
+    detail: 'BRICS 2026 Cultural Festival',
+  },
+  {
+    title: 'Second Prize',
+    detail: 'Kala Vijrith National Dance Competition, Chennai',
+  },
+  {
+    title: 'All India Women Achievers Award',
+    detail: 'Art & Culture (2023)',
+  },
+  {
+    title: 'Best Dancer of South India',
+    detail: '4th Place',
+  },
+  {
+    title: 'Outstanding Performance',
+    detail: 'Ninaidha Bala Nruthyotsava',
+  },
+  {
+    title: 'Star of SriRam Nirthyalaya',
+    detail: 'Recognition',
+  },
+  {
+    title: 'Level-I Certificate in Nattuvangam',
+    detail: 'under Kalaimamani Guru Madurai R. Muralidharan',
+  },
 ]
 
 export default function About() {
@@ -27,25 +81,43 @@ export default function About() {
         <SectionHeading eyebrow="About" title="Harshikashree" />
 
         <div className="mt-12 grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] md:items-start">
-          <PlaceholderImage label="Portrait" aspect="aspect-[4/5]" />
+          <Photo
+            src="/images/photos/Harshu-pic.jpg"
+            alt="Portrait of Harshikashree"
+            aspect="aspect-[4/5]"
+          />
 
           <div className="space-y-5 text-ink/70">
-            <p>
-              Harshikashree is a classically trained Bharatanatyam dancer whose
-              passion for movement, mythology, and music began at a young age.
-              Under the guidance of her guru, she has spent years mastering the
-              intricate footwork (nritta), storytelling gestures (abhinaya), and
-              devotional spirit that define this ancient temple art form.
+            <p className="font-display text-xl italic text-maroon">
+              Where devotion finds expression through dance.
             </p>
             <p>
-              This is placeholder biography text — replace it with Harshikashree&rsquo;s
-              real story: where she trained, the dance school or guru lineage she
-              belongs to, the styles or repertoire pieces (varnams, padams,
-              thillanas) she performs, and what dance means to her personally.
+              Harshikashree Shanmugam is a young Bharatanatyam artiste dedicated
+              to preserving and celebrating India&rsquo;s rich classical heritage
+              through disciplined practice and meaningful performance. She began
+              her Bharatanatyam journey at the age of five under the guidance of
+              her mother and Guru, <strong className="font-medium text-maroon">Smt. Rajashree Ramu</strong>,
+              and has since developed a strong foundation in nritta, abhinaya, and
+              the traditional Margam. Alongside Bharatanatyam, she continues her
+              training in Nattuvangam under{' '}
+              <strong className="font-medium text-maroon">
+                Kalaimamani Guru Madurai R. Muralidharan
+              </strong>{' '}
+              and pursues Carnatic vocal music, embracing a holistic approach to
+              the classical arts.
             </p>
             <p>
-              Beyond the stage, she continues to deepen her practice, exploring
-              choreography and the cultural history behind each piece she performs.
+              Her artistic journey has taken her to prestigious sabhas, temple
+              festivals, national competitions, and international cultural
+              platforms across India. A recipient of the{' '}
+              <strong className="font-medium text-maroon">
+                Centre for Cultural Resources and Training (CCRT) Scholarship
+              </strong>{' '}
+              from the Ministry of Culture, Government of India, Harshikashree
+              has also represented Tamil Nadu at the{' '}
+              <strong className="font-medium text-maroon">BRICS 2026 Cultural Festival</strong>,
+              reflecting her commitment to carrying forward India&rsquo;s timeless
+              artistic traditions with grace, discipline, and devotion.
             </p>
           </div>
         </div>
@@ -60,6 +132,9 @@ export default function About() {
               <li key={m.year} className="relative">
                 <span className="absolute -left-[38px] top-1 h-3 w-3 rounded-full bg-gold" />
                 <p className="font-serif text-lg text-maroon">{m.year}</p>
+                <p className="mt-1 font-sans text-sm font-semibold uppercase tracking-wider text-gold-dark">
+                  {m.title}
+                </p>
                 <p className="mt-1 text-ink/70">{m.event}</p>
               </li>
             ))}
@@ -73,11 +148,14 @@ export default function About() {
         <ul className="mt-10 space-y-4">
           {awards.map((award) => (
             <li
-              key={award}
+              key={award.title}
               className="flex items-start gap-3 border-b border-gold/20 pb-4 text-ink/70"
             >
               <span className="mt-1 text-gold-dark">&#10022;</span>
-              <span>{award}</span>
+              <span>
+                <span className="font-medium text-maroon">{award.title}</span>
+                {award.detail && <> &mdash; {award.detail}</>}
+              </span>
             </li>
           ))}
         </ul>

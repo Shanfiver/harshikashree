@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import SectionHeading from '@/components/SectionHeading'
-import { events, formatEventDate } from '@/data/events'
+import { events, eventLocation, eventMeta, eventSortKey, formatEventDate } from '@/data/events'
 
 export const metadata: Metadata = {
   title: 'Events | Harshikashree',
@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 
 const upcoming = events
   .filter((e) => e.status === 'Upcoming')
-  .sort((a, b) => a.date.localeCompare(b.date))
+  .sort((a, b) => eventSortKey(a).localeCompare(eventSortKey(b)))
 
 const past = events
   .filter((e) => e.status === 'Completed')
-  .sort((a, b) => b.date.localeCompare(a.date))
+  .sort((a, b) => eventSortKey(b).localeCompare(eventSortKey(a)))
 
 export default function Events() {
   return (
@@ -21,10 +21,14 @@ export default function Events() {
 
       <div className="mt-12 space-y-6">
         {upcoming.map((event) => {
-          const { day, month } = formatEventDate(event.date)
+          const { day, month } = event.date
+            ? formatEventDate(event.date)
+            : { day: '--', month: event.yearHint ?? '' }
+          const location = eventLocation(event)
+          const meta = eventMeta(event)
           return (
             <div
-              key={event.eventTitle + event.date}
+              key={event.eventTitle + eventSortKey(event)}
               className="flex flex-col gap-6 rounded-2xl border border-gold/30 bg-cream-dark p-6 sm:flex-row"
             >
               <div className="flex shrink-0 flex-row items-center gap-3 sm:w-28 sm:flex-col sm:items-stretch sm:text-center">
@@ -40,15 +44,18 @@ export default function Events() {
                   <span className="rounded-full border border-gold/40 px-3 py-0.5 text-[11px] font-medium uppercase tracking-wider text-gold-dark">
                     {event.occasion}
                   </span>
+                  {event.achievement && (
+                    <span className="rounded-full bg-gold/20 px-3 py-0.5 text-[11px] font-medium uppercase tracking-wider text-maroon">
+                      {event.achievement}
+                    </span>
+                  )}
                 </div>
-                <p className="mt-1 text-sm uppercase tracking-wider text-gold-dark">
-                  {event.venue}, {event.city}
-                </p>
+                {location && (
+                  <p className="mt-1 text-sm uppercase tracking-wider text-gold-dark">{location}</p>
+                )}
                 <p className="mt-3 text-ink/70">{event.description}</p>
-                <p className="mt-3 text-xs text-ink/50">
-                  {event.performanceTitle} &middot; {event.repertoire} &middot; {event.duration}
-                </p>
-                <p className="mt-1 text-xs text-ink/50">Guru: {event.guru}</p>
+                {meta && <p className="mt-3 text-xs text-ink/50">{meta}</p>}
+                {event.guru && <p className="mt-1 text-xs text-ink/50">Guru: {event.guru}</p>}
               </div>
             </div>
           )
@@ -61,22 +68,33 @@ export default function Events() {
       <div className="mt-20">
         <SectionHeading eyebrow="Archive" title="Past Performances" />
         <ul className="mt-10 divide-y divide-gold/20">
-          {past.map((event) => (
-            <li
-              key={event.eventTitle + event.date}
-              className="flex flex-wrap items-baseline justify-between gap-2 py-4"
-            >
-              <div>
-                <p className="font-serif text-lg text-maroon">{event.eventTitle}</p>
-                <p className="text-sm text-ink/60">
-                  {event.venue}, {event.city} &middot; {event.occasion}
+          {past.map((event) => {
+            const location = eventLocation(event)
+            return (
+              <li
+                key={event.eventTitle + eventSortKey(event)}
+                className="flex flex-wrap items-baseline justify-between gap-2 py-4"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-serif text-lg text-maroon">{event.eventTitle}</p>
+                    {event.achievement && (
+                      <span className="rounded-full bg-gold/20 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-maroon">
+                        {event.achievement}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-ink/60">
+                    {location && `${location} · `}
+                    {event.occasion}
+                  </p>
+                </div>
+                <p className="font-sans text-sm uppercase tracking-wider text-gold-dark">
+                  {event.date ? formatEventDate(event.date).full : event.yearHint}
                 </p>
-              </div>
-              <p className="font-sans text-sm uppercase tracking-wider text-gold-dark">
-                {formatEventDate(event.date).full}
-              </p>
-            </li>
-          ))}
+              </li>
+            )
+          })}
           {past.length === 0 && (
             <p className="py-4 text-center text-ink/60">No past performances recorded yet.</p>
           )}

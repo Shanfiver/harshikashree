@@ -1,2 +1,7 @@
 node_modules/
 .next/
+tsconfig.tsbuildinfo
+
+# env files (never commit real credentials)
+.env
+.env*.local

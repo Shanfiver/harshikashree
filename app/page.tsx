@@ -1,17 +1,22 @@
 import Link from 'next/link'
 import HeroSlideshow from '@/components/HeroSlideshow'
-import PlaceholderImage from '@/components/PlaceholderImage'
+import Photo from '@/components/Photo'
 import SectionHeading from '@/components/SectionHeading'
 
 
 const stats = [
   { value: '10+', label: 'Years of Training' },
-  { value: '50+', label: 'Stage Performances' },
-  { value: '1', label: 'Arangetram' },
-  { value: '5+', label: 'Awards & Honors' },
+  { value: '50+', label: 'Total Performances' },
+  { value: '30+', label: 'Temple performace' },
+  { value: '10+', label: 'Awards & Honors' },
 ]
 
-const galleryPreview = ['Performance', 'Practice', 'Costume', 'Recognition']
+const galleryPreview = [
+  { label: 'Performance', src: '/images/photos/IMG_3717.jpg' },
+  { label: 'Practice', src: '/images/photos/IMG_3161.jpg' },
+  { label: 'Costume', src: '/images/photos/IMG_5960.jpg' },
+  { label: 'Recognition', src: '/images/photos/IMG_4819.jpg' },
+]
 
 export default function Home() {
   return (
@@ -72,11 +77,7 @@ export default function Home() {
       <section className="mx-auto max-w-4xl px-6 py-20 text-center">
         <SectionHeading eyebrow="Namaste" title="A Journey Through Classical Dance" />
         <p className="mx-auto mt-6 max-w-2xl text-ink/70">
-          Trained under the guidance of a respected guru in the Bharatanatyam
-          tradition, Harshikashree has performed across stages large and small —
-          bringing centuries-old stories of devotion, mythology, and emotion to
-          life through nritta, nritya, and abhinaya. This is placeholder text —
-          replace it with her real training background and story.
+         Harshikashree Shanmugam is a young Bharatanatyam artiste dedicated to preserving and celebrating India’s rich classical heritage through disciplined practice and meaningful performance. She began her Bharatanatyam journey at the age of five under the guidance of her mother and Guru, Smt. Rajashree Ramu, and has since developed a strong foundation in nritta, abhinaya, and the traditional Margam. 
         </p>
         <Link
           href="/about"
@@ -91,8 +92,14 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <SectionHeading eyebrow="Moments" title="From the Stage" />
           <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {galleryPreview.map((label) => (
-              <PlaceholderImage key={label} label={label} aspect="aspect-square" />
+            {galleryPreview.map((item) => (
+              <Photo
+                key={item.label}
+                src={item.src}
+                alt={`Harshikashree — ${item.label}`}
+                label={item.label}
+                aspect="aspect-square"
+              />
             ))}
           </div>
           <div className="mt-8 text-center">

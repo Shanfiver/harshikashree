@@ -28,8 +28,18 @@ export default function Footer() {
               Connect
             </p>
             <ul className="mt-3 space-y-2 text-sm">
-              <li>hello@harshikashree.com</li>
-              <li>Instagram &middot; YouTube</li>
+              <li>arangam.dancespace@gmail.com</li>
+              <li>Bangalore, Karnataka</li>
+              <li>
+                <a
+                  href="https://www.instagram.com/dancee_harshikaa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-light"
+                >
+                  Instagram
+                </a>
+              </li>
             </ul>
           </div>
         </div>
