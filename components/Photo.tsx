@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 
 export default function Photo({
@@ -8,6 +10,7 @@ export default function Photo({
   className = '',
   sizes = '(min-width: 768px) 25vw, 50vw',
   priority = false,
+  onClick,
 }: {
   src: string
   alt: string
@@ -16,9 +19,25 @@ export default function Photo({
   className?: string
   sizes?: string
   priority?: boolean
+  onClick?: () => void
 }) {
   return (
-    <div className={`relative overflow-hidden rounded-xl ${aspect} ${className}`}>
+    <div
+      className={`relative overflow-hidden rounded-xl ${aspect} ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                onClick()
+              }
+            }
+          : undefined
+      }
+    >
       <Image
         src={src}
         alt={alt}

@@ -1,15 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const MIN_SUBMIT_MS = 3000
+const MAX_MESSAGE_LENGTH = 5000
+
 export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json()
+  const { name, email, message, company, loadedAt } = await req.json()
+
+  // Honeypot: real visitors never fill this hidden field; bots usually do.
+  // Time-trap: a form submitted faster than a human could type it is almost certainly a bot.
+  // Both are silently accepted (no error) so bots don't learn to adapt.
+  const isBot =
+    (typeof company === 'string' && company.trim() !== '') ||
+    (typeof loadedAt !== 'number' || Date.now() - loadedAt < MIN_SUBMIT_MS)
+
+  if (isBot) {
+    return NextResponse.json({ ok: true })
+  }
 
   if (
     typeof name !== 'string' || !name.trim() ||
-    typeof email !== 'string' || !email.trim() ||
-    typeof message !== 'string' || !message.trim()
+    typeof email !== 'string' || !EMAIL_RE.test(email) ||
+    typeof message !== 'string' || !message.trim() || message.length > MAX_MESSAGE_LENGTH
   ) {
-    return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 })
+    return NextResponse.json({ error: 'Missing or invalid fields.' }, { status: 400 })
   }
 
   const { RESEND_API_KEY, CONTACT_TO_EMAIL } = process.env

@@ -1,26 +1,29 @@
 'use client'
 
 import { useState } from 'react'
+import Lightbox from '@/components/Lightbox'
 import Photo from '@/components/Photo'
 import PlaceholderImage from '@/components/PlaceholderImage'
 import SectionHeading from '@/components/SectionHeading'
 import VideoEmbed from '@/components/VideoEmbed'
 
-const categories = ['All', 'Performances', 'Practice', 'Costumes', 'Recognition'] as const
+const categories = ['All', 'Performances', 'Costumes', 'Recognition'] as const
 
 const photos = [
   { id: 0, category: categories[1], src: '/images/photos/2T1A9587.jpg.jpeg' },
-  { id: 1, category: categories[2], src: '/images/photos/IMG_0849.jpg' },
-  { id: 2, category: categories[3], src: '/images/photos/IMG_6014.jpg' },
-  { id: 3, category: categories[4], src: '/images/photos/4L9A8329.JPG' },
+  { id: 1, category: categories[1], src: '/images/photos/IMG_0849.jpg' },
+  { id: 2, category: categories[2], src: '/images/photos/IMG_6014.jpg' },
+  { id: 3, category: categories[3], src: '/images/photos/4L9A8329.JPG' },
   { id: 4, category: categories[1], src: '/images/photos/4L9A8432.JPG' },
   { id: 5, category: categories[2], src: '/images/photos/IMG_0853.jpg' },
-  { id: 6, category: categories[3], src: '/images/photos/Solor.jpg' },
-  { id: 7, category: categories[4], src: '/images/photos/4L9A8344.JPG' },
+  { id: 6, category: categories[2], src: '/images/photos/Solor.jpg' },
+  { id: 7, category: categories[3], src: '/images/photos/4L9A8344.JPG' },
   { id: 8, category: categories[1], src: '/images/photos/IMG_5117.jpg' },
-  { id: 9, category: categories[2], src: '/images/photos/IMG_0900.jpg' },
-  { id: 10, category: categories[3], src: '/images/photos/IMG_9504.JPG' },
-  { id: 11, category: categories[4], src: '/images/photos/IMG_6249.jpg' },
+  { id: 9, category: categories[1], src: '/images/photos/IMG_0900.jpg' },
+  { id: 10, category: categories[2], src: '/images/photos/IMG_9504.JPG' },
+  { id: 11, category: categories[1], src: '/images/photos/IMG_6249.jpg' },
+  { id: 12, category: categories[3], src: '/images/photos/Lalithambika.jpeg' },
+  { id: 13, category: categories[3], src: '/images/photos/Brics2026.jpg' },
 ]
 
 // Upload each performance video to YouTube as "Unlisted", then paste its video ID below
@@ -34,6 +37,7 @@ const videos = [
 
 export default function Gallery() {
   const [active, setActive] = useState<(typeof categories)[number]>('All')
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
   const filtered =
     active === 'All' ? photos : photos.filter((p) => p.category === active)
@@ -43,8 +47,7 @@ export default function Gallery() {
       <SectionHeading eyebrow="Gallery" title="Moments in Motion" />
       <p className="mx-auto mt-4 max-w-xl text-center text-ink/60">
         A collection of photos and videos from performances, practice, and
-        milestones. Replace these placeholders with real photography and
-        performance footage.
+        milestones. Tap or click any photo to view it larger.
       </p>
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -64,16 +67,33 @@ export default function Gallery() {
       </div>
 
       <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {filtered.map((photo) => (
+        {filtered.map((photo, i) => (
           <Photo
             key={photo.id}
             src={photo.src}
             alt={`Harshikashree — ${photo.category}`}
             label={photo.category}
             aspect="aspect-square"
+            onClick={() => setLightboxIndex(i)}
           />
         ))}
       </div>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          src={filtered[lightboxIndex].src}
+          alt={`Harshikashree — ${filtered[lightboxIndex].category}`}
+          onClose={() => setLightboxIndex(null)}
+          onPrev={
+            lightboxIndex > 0 ? () => setLightboxIndex(lightboxIndex - 1) : undefined
+          }
+          onNext={
+            lightboxIndex < filtered.length - 1
+              ? () => setLightboxIndex(lightboxIndex + 1)
+              : undefined
+          }
+        />
+      )}
 
       {/* Videos */}
       <div className="mt-24">

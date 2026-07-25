@@ -5,6 +5,7 @@ import SectionHeading from '@/components/SectionHeading'
 
 export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'submitted' | 'error'>('idle')
+  const [loadedAt] = useState(() => Date.now())
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -15,6 +16,8 @@ export default function Contact() {
       name: (form.elements.namedItem('name') as HTMLInputElement).value,
       email: (form.elements.namedItem('email') as HTMLInputElement).value,
       message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+      company: (form.elements.namedItem('company') as HTMLInputElement).value,
+      loadedAt,
     }
 
     try {
@@ -82,6 +85,16 @@ export default function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="absolute left-[-9999px]" aria-hidden="true">
+                <label htmlFor="company">Company</label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <div>
                 <label className="text-xs font-semibold uppercase tracking-widest text-gold-dark">
                   Name
