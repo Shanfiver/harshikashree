@@ -33,7 +33,7 @@ export const events: DanceEvent[] = [
     duration: '60 mins',
     occasion: 'Temple Festival',
     description: 'Invited Bharatanatyam trio performance.',
-    status: 'Upcoming',
+    status: 'Completed',
     featured: true,
   },
   {
@@ -47,7 +47,7 @@ export const events: DanceEvent[] = [
     guru: 'Shri Anand Unni',
     occasion: 'Inter School Competition',
     description: 'Representing school in Bharatanatyam competition.',
-    status: 'Upcoming',
+    status: 'Completed',
     featured: true,
   },
   {
